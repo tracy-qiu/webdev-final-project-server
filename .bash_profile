@@ -1,0 +1,1 @@
+DB_CONNECTION_STRING=DB_CONNECTION_STRING=mongodb+srv://qiutr:dgJ5rYg5pIfpEHJT@cluster1.awauetw.mongodb.net/travel-app?retryWrites=true&w=majority
