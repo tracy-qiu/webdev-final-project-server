@@ -35,7 +35,7 @@ const EventsController = (app) => {
     let response = await fetch(
       "https://test.api.amadeus.com/v1/shopping/activities?latitude=41.397158&longitude=2.160873&radius=1",
       {
-        headers: { Authorization: "Bearer gtq9S3sjQpvGAuxAWmNkA0jtAONq" },
+        headers: { Authorization: "Bearer skoDoxivr1Gfi7j5bf3tj3AaXGTV" },
       }
     );
     let resJson = await response.json();
