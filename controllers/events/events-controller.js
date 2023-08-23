@@ -12,8 +12,9 @@ const EventsController = (app) => {
     res.json(insertedEvent);
   };
 
-  const findEvent = async (req, res) => {
-    const events = await eventsDao.findEvent();
+  const findEvents = async (req, res) => {
+    // await fetchEvents();
+    const events = await eventsDao.findEvents();
     res.json(events);
   };
 
@@ -30,10 +31,37 @@ const EventsController = (app) => {
     res.json(status);
   };
 
+  const fetchEvents = async () => {
+    let response = await fetch(
+      "https://test.api.amadeus.com/v1/shopping/activities?latitude=41.397158&longitude=2.160873&radius=1",
+      {
+        headers: { Authorization: "Bearer gtq9S3sjQpvGAuxAWmNkA0jtAONq" },
+      }
+    );
+    let resJson = await response.json();
+    let events = resJson.data;
+    let numEvents = Object.keys(events).length;
+    console.log(numEvents);
+    for (let i = 0; i < numEvents; i++) {
+      console.log(events[i]);
+      let newEvent = {};
+      newEvent.title = events[i].name;
+      newEvent.desc = events[i].description;
+      newEvent.image = events[i].pictures[0];
+      newEvent.likes = 0;
+      newEvent.liked = false;
+      newEvent.attending = false;
+      newEvent.wishlist = false;
+      newEvent.past = false;
+      await eventsDao.createEvent(newEvent);
+    }
+  };
+
   app.post("/api/events", createEvent);
-  app.get("/api/events", findEvent);
+  app.get("/api/events", findEvents);
   app.put("/api/events/:eid", updateEvent);
   app.delete("/api/events/:eid", deleteEvent);
+  app.get("/api/events/fetch", fetchEvents);
 };
 
 export default EventsController;
